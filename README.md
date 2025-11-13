@@ -1,1 +1,0 @@
-# gestao-estoque-api-frontend
