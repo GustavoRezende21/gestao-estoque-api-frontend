@@ -1,0 +1,106 @@
+<p-confirmDialog></p-confirmDialog>
+
+<p-card>
+  <p-toolbar>
+    <div class="p-toolbar-group-start">
+      <p-button 
+        label="Novo Usuário" 
+        icon="pi pi-plus" 
+        (click)="abrirModalNovo()"
+      ></p-button>
+    </div>
+  </p-toolbar>
+
+  <p-table [value]="usuarios" [paginator]="true" [rows]="10" class="mt-4">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Perfil</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-usuario>
+      <tr>
+        <td>{{ usuario.nomeCompleto }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.perfil }}</td>
+        <td>
+          <span [ngClass]="usuario.ativo ? 'text-green-600' : 'text-gray-500'">
+            {{ usuario.ativo ? 'Ativo' : 'Inativo' }}
+          </span>
+        </td>
+        <td>
+          <p-button 
+            icon="pi pi-pencil" 
+            styleClass="p-button-sm p-button-info"
+            (click)="abrirModalEditar(usuario)"
+          ></p-button>
+          <p-button 
+            icon="pi pi-trash" 
+            styleClass="p-button-sm p-button-danger ml-2"
+            (click)="onDeletarUsuario(usuario)"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+
+<p-dialog 
+  [(visible)]="usuarioDialog" 
+  [modal]="true" 
+  [style]="{ width: '450px' }" 
+  [header]="modoEdicao ? 'Editar Usuário' : 'Novo Usuário'"
+  (onHide)="fecharModal()"
+>
+  <form [formGroup]="usuarioForm" (ngSubmit)="onSubmitUsuario()">
+    <div class="p-fluid">
+      
+      <div class="field">
+        <label for="nomeCompleto">Nome Completo</label>
+        <input id="nomeCompleto" type="text" pInputText formControlName="nomeCompleto">
+      </div>
+      
+      <div class="field mt-3">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" pInputText formControlName="email">
+      </div>
+
+      <div class="field mt-3">
+        <label for="senha">Senha</label>
+        <input id="senha" type="password" pInputText formControlName="senha" 
+               [placeholder]="modoEdicao ? 'Deixe em branco para não alterar' : 'Mínimo 8 caracteres, 1 maiúscula, 1 número'">
+        </div>
+
+      <div class="grid mt-3">
+        <div class="field col-6">
+          <label for="perfil">Perfil</label>
+          <p-dropdown id="perfil" [options]="opcoesPerfil" formControlName="perfil" placeholder="Selecione..."></p-dropdown>
+        </div>
+        <div class="field col-6 flex flex-column align-items-center">
+          <label for="ativo">Status (Ativo)</label>
+          <p-inputSwitch id="ativo" formControlName="ativo" class="mt-3"></p-inputSwitch>
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="flex justify-content-end gap-2 mt-4">
+      <p-button 
+        label="Cancelar" 
+        icon="pi pi-times" 
+        styleClass="p-button-secondary"
+        (click)="fecharModal()"
+      ></p-button>
+      <p-button 
+        label="Salvar" 
+        icon="pi pi-check" 
+        type="submit"
+        [disabled]="usuarioForm.invalid"
+      ></p-button>
+    </div>
+  </form>
+</p-dialog>

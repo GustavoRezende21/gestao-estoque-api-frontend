@@ -1,0 +1,76 @@
+<p-card header="Relatório de Vendas">
+  <form [formGroup]="filtroForm" (ngSubmit)="buscarRelatorio()">
+    <div class="p-fluid p-formgrid grid">
+
+      <div class="field col-12 md:col-3">
+        <label for="dataInicial">Data Inicial</label>
+        <p-calendar id="dataInicial" formControlName="dataInicial" [showTime]="true" dateFormat="dd/mm/yy"></p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="dataFinal">Data Final</label>
+        <p-calendar id="dataFinal" formControlName="dataFinal" [showTime]="true" dateFormat="dd/mm/yy"></p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-2">
+        <label for="valorMinimo">Valor Mínimo</label>
+        <p-inputNumber id="valorMinimo" formControlName="valorMinimo" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+      </div>
+
+      <div class="field col-12 md:col-2">
+        <label for="valorMaximo">Valor Máximo</label>
+        <p-inputNumber id="valorMaximo" formControlName="valorMaximo" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+      </div>
+
+      <div class="field col-12 md:col-2">
+        <label for="usuarioId">ID do Usuário</label>
+        <p-inputNumber id="usuarioId" formControlName="usuarioId" [useGrouping]="false"></p-inputNumber>
+      </div>
+
+      <div class="col-12 flex gap-2">
+        <p-button label="Buscar" type="submit" icon="pi pi-search"></p-button>
+        <p-button label="Limpar" type="button" styleClass="p-button-outlined" icon="pi pi-times" (click)="limparFiltros()"></p-button>
+      </div>
+    </div>
+  </form>
+</p-card>
+
+<div *ngIf="relatorio">
+  <div class="grid mt-4">
+    <div class="col-12 md:col-6">
+      <p-card styleClass="bg-green-100">
+        <div class="text-xl">TOTAL DE VENDAS</div>
+        <div class="text-3xl font-bold text-green-700">{{ relatorio.totalVendas | currency: 'BRL' }}</div>
+      </p-card>
+    </div>
+    <div class="col-12 md:col-6">
+      <p-card styleClass="bg-blue-100">
+        <div class="text-xl">TOTAL DE ITENS VENDIDOS</div>
+        <div class="text-3xl font-bold text-blue-700">{{ relatorio.totalItensVendidos }}</div>
+      </p-card>
+    </div>
+  </div>
+
+  <p-card header="Vendas Filtradas" class="mt-4">
+    <p-table [value]="relatorio.vendasFiltradas" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">ID Venda <p-sortIcon field="id"></p-sortIcon></th>
+          <th pSortableColumn="dataHora">Data/Hora <p-sortIcon field="dataHora"></p-sortIcon></th>
+          <th pSortableColumn="usuarioResponsavel">Usuário <p-sortIcon field="usuarioResponsavel"></p-sortIcon></th>
+          <th pSortableColumn="valorTotal">Valor Total <p-sortIcon field="valorTotal"></p-sortIcon></th>
+          <th>Itens</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-venda>
+        <tr>
+          <td>#{{ venda.id }}</td>
+          <td>{{ venda.dataHora | date: 'dd/MM/yy HH:mm' }}</td>
+          <td>{{ venda.usuarioResponsavel }}</td>
+          <td>{{ venda.valorTotal | currency: 'BRL' }}</td>
+          <td>{{ venda.quantidadeTotalItens }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>

@@ -1,0 +1,107 @@
+<p-confirmDialog></p-confirmDialog>
+
+<p-card>
+  <p-toolbar>
+    <div class="p-toolbar-group-start">
+      <p-button 
+        label="Novo Produto" 
+        icon="pi pi-plus" 
+        (click)="abrirModalNovo()"
+      ></p-button>
+    </div>
+  </p-toolbar>
+
+  <p-table [value]="produtos" [paginator]="true" [rows]="10" class="mt-4" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="nome">Nome <p-sortIcon field="nome"></p-sortIcon></th>
+        <th pSortableColumn="categoria">Categoria <p-sortIcon field="categoria"></p-sortIcon></th>
+        <th pSortableColumn="precoUnitario">Preço Unit. <p-sortIcon field="precoUnitario"></p-sortIcon></th>
+        <th pSortableColumn="quantidadeEmEstoque">Qtd. Estoque <p-sortIcon field="quantidadeEmEstoque"></p-sortIcon></th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-produto>
+      <tr>
+        <td>{{ produto.id }}</td>
+        <td>{{ produto.nome }}</td>
+        <td>{{ produto.categoria }}</td>
+        <td>{{ produto.precoUnitario | currency: 'BRL' }}</td>
+        <td>{{ produto.quantidadeEmEstoque }}</td>
+        <td>
+          <p-button 
+            icon="pi pi-pencil" 
+            styleClass="p-button-sm p-button-info"
+            (click)="abrirModalEditar(produto)"
+          ></p-button>
+          <p-button 
+            icon="pi pi-trash" 
+            styleClass="p-button-sm p-button-danger ml-2"
+            (click)="onDeletarProduto(produto)"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+
+<p-dialog 
+  [(visible)]="produtoDialog" 
+  [modal]="true" 
+  [style]="{ width: '450px' }" 
+  [header]="modoEdicao ? 'Editar Produto' : 'Novo Produto'"
+  (onHide)="fecharModal()"
+>
+  <form [formGroup]="produtoForm" (ngSubmit)="onSubmitProduto()">
+    <div class="p-fluid">
+      
+      <div class="field">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" pInputText formControlName="nome">
+      </div>
+      
+      <div class="field mt-3">
+        <label for="categoria">Categoria</label>
+        <input id="categoria" type="text" pInputText formControlName="categoria">
+      </div>
+
+      <div class="field mt-3">
+        <label for="precoUnitario">Preço Unitário</label>
+        <p-inputNumber 
+          id="precoUnitario" 
+          formControlName="precoUnitario" 
+          mode="currency" 
+          currency="BRL" 
+          locale="pt-BR"
+        ></p-inputNumber>
+      </div>
+
+      <div class="field mt-3">
+        <label for="quantidadeEmEstoque">Qtd. em Estoque</label>
+        <p-inputNumber 
+          id="quantidadeEmEstoque" 
+          formControlName="quantidadeEmEstoque" 
+          [useGrouping]="false"
+        ></p-inputNumber>
+      </div>
+
+    </div>
+    
+    <div class="flex justify-content-end gap-2 mt-4">
+      <p-button 
+        label="Cancelar" 
+        icon="pi pi-times" 
+        styleClass="p-button-secondary"
+        (click)="fecharModal()"
+      ></p-button>
+      <p-button 
+        label="Salvar" 
+        icon="pi pi-check" 
+        type="submit"
+        [disabled]="produtoForm.invalid"
+      ></p-button>
+    </div>
+  </form>
+</p-dialog>

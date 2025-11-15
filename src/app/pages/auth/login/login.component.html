@@ -1,0 +1,50 @@
+<div class="login-container">
+  
+  <p-card header="Sistema de Gestão de Estoque e Caixa" [style]="{ width: '400px' }">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input 
+          id="email" 
+          type="email" 
+          pInputText 
+          formControlName="email" 
+          class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
+        >
+        <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="p-error">
+          <span *ngIf="loginForm.get('email')?.errors?.['required']">E-mail é obrigatório.</span>
+          <span *ngIf="loginForm.get('email')?.errors?.['email']">Formato de e-mail inválido.</span>
+        </small>
+      </div>
+
+      <div class="field mt-3">
+        <label for="senha">Senha</label>
+        <input 
+          id="senha" 
+          type="password" 
+          pInputText 
+          formControlName="senha" 
+          class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched}"
+        >
+        <small *ngIf="loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched" class="p-error">
+          Senha é obrigatória.
+        </small>
+      </div>
+
+      <div class="field mt-4">
+        <p-button 
+          label="Entrar" 
+          type="submit" 
+          icon="pi pi-sign-in" 
+          class="w-full"
+          [disabled]="loginForm.invalid"
+        ></p-button>
+      </div>
+
+    </form>
+  </p-card>
+
+</div>

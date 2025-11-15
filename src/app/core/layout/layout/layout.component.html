@@ -1,0 +1,38 @@
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <p-button 
+      icon="pi pi-bars" 
+      styleClass="p-button-secondary p-button-text"
+      (click)="sidebarVisivel = true" 
+    ></p-button>
+    <span class="app-title">Gestão de Estoque</span>
+  </div>
+
+  <div class="p-toolbar-group-end">
+    <span class="user-name">{{ nomeUsuario }}</span>
+    <p-menu 
+      #userMenu 
+      [model]="userMenuItems" 
+      [popup]="true"
+    ></p-menu>
+    <p-button 
+      icon="pi pi-user" 
+      styleClass="p-button-secondary p-button-text"
+      (click)="userMenu.toggle($event)"
+    ></p-button>
+  </div>
+</p-toolbar>
+
+
+<p-sidebar [(visible)]="sidebarVisivel">
+  <h3>Menu</h3>
+  <p-menu 
+    [model]="menuItems"
+    (onItemClick)="sidebarVisivel = false"
+  ></p-menu>
+</p-sidebar>
+
+
+<div class="layout-main-content">
+  <router-outlet></router-outlet>
+</div>

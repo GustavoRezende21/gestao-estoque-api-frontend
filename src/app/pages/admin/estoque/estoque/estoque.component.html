@@ -1,0 +1,63 @@
+<p-card header="Registrar Movimentação de Estoque">
+  <form [formGroup]="movimentacaoForm" (ngSubmit)="onSubmitMovimentacao()">
+    <div class="p-fluid p-formgrid grid">
+
+      <div class="field col-12 md:col-3">
+        <label for="produtoId">ID do Produto</label>
+        <p-inputNumber id="produtoId" formControlName="produtoId" [useGrouping]="false"></p-inputNumber>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="tipo">Tipo de Movimentação</label>
+        <p-dropdown id="tipo" [options]="tiposMovimentacao" formControlName="tipo" placeholder="Selecione..."></p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="quantidade">Quantidade</label>
+        <p-inputNumber id="quantidade" formControlName="quantidade" placeholder="Ex: 10 (Entrada) ou -2 (Ajuste)"></p-inputNumber>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="motivo">Motivo (Obrigatório p/ Ajuste)</label>
+        <input id="motivo" type="text" pInputText formControlName="motivo">
+      </div>
+
+      <div class="col-12 md:col-3">
+        <p-button label="Registrar" type="submit" [disabled]="movimentacaoForm.invalid"></p-button>
+      </div>
+    </div>
+  </form>
+</p-card>
+
+<p-card header="Histórico de Movimentações" class="mt-4">
+  <p-table [value]="historico" [paginator]="true" [rows]="10" [autoLayout]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="dataHora">Data/Hora <p-sortIcon field="dataHora"></p-sortIcon></th>
+        <th pSortableColumn="produtoNome">Produto <p-sortIcon field="produtoNome"></p-sortIcon></th>
+        <th pSortableColumn="tipo">Tipo <p-sortIcon field="tipo"></p-sortIcon></th>
+        <th pSortableColumn="quantidade">Qtd. <p-sortIcon field="quantidade"></p-sortIcon></th>
+        <th>Motivo</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td>{{ item.dataHora | date: 'dd/MM/yy HH:mm' }}</td>
+        <td>{{ item.produtoNome }} (ID: {{ item.produtoId }})</td>
+        <td>
+          <span [ngClass]="{
+            'text-green-600': item.tipo === 'ENTRADA',
+            'text-red-600': item.tipo === 'SAIDA_VENDA',
+            'text-yellow-600': item.tipo === 'AJUSTE'
+          }">
+            {{ item.tipo }}
+          </span>
+        </td>
+        <td [ngClass]="item.quantidade > 0 ? 'text-green-600' : 'text-red-600'">
+          {{ item.quantidade > 0 ? '+' : '' }}{{ item.quantidade }}
+        </td>
+        <td>{{ item.motivo }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

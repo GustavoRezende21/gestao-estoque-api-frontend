@@ -1,0 +1,34 @@
+:host ::ng-deep .p-toolbar {
+  width: 100%;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.p-toolbar-group-start {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.p-toolbar-group-end {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.user-name {
+  font-size: 0.9rem;
+}
+
+.layout-main-content {
+  margin-top: 4rem; 
+  padding: 1.5rem;
+  height: calc(100vh - 4rem);
+  overflow-y: auto;
+}

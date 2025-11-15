@@ -1,0 +1,94 @@
+<div class="grid">
+
+  <div class="col-12 md:col-8">
+    <p-card header="Adicionar Produto">
+      <form [formGroup]="addItemForm" (ngSubmit)="adicionarAoCarrinho()" class="grid p-fluid align-items-end">
+        <div class="field col-6">
+          <label for="produto">Produto</label>
+          <p-autoComplete 
+            id="produto" 
+            formControlName="produto" 
+            [suggestions]="produtosSugeridos" 
+            (completeMethod)="buscarProdutos($event)"
+            field="nome" 
+            [dropdown]="true"
+            forceSelection="true"
+          >
+            <ng-template let-produto pTemplate="item">
+              <div>{{produto.nome}} (R$ {{produto.precoUnitario}} | Estoque: {{produto.quantidadeEmEstoque}})</div>
+            </ng-template>
+          </p-autoComplete>
+        </div>
+
+        <div class="field col-3">
+          <label for="quantidade">Quantidade</label>
+          <p-inputNumber id="quantidade" formControlName="quantidade" [min]="1"></p-inputNumber>
+        </div>
+
+        <div class="col-3">
+          <p-button label="Adicionar" icon="pi pi-plus" type="submit" [disabled]="addItemForm.invalid"></p-button>
+        </div>
+      </form>
+    </p-card>
+
+    <p-card header="Itens da Venda" class="mt-4">
+      <p-table [value]="itensCarrinho">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Produto</th>
+            <th>Qtd.</th>
+            <th>Preço Unit.</th>
+            <th>Subtotal</th>
+            <th>Ação</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>{{ item.nome }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>{{ item.precoUnitario | currency: 'BRL' }}</td>
+            <td>{{ item.subtotal | currency: 'BRL' }}</td>
+            <td>
+              <p-button icon="pi pi-trash" styleClass="p-button-sm p-button-danger" (click)="removerDoCarrinho(item.produtoId)"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5">Nenhum item adicionado.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+
+  <div class="col-12 md:col-4">
+    <p-card header="Finalizar Venda">
+      <div class="total-display">
+        <h2>Total</h2>
+        <h1>{{ valorTotal | currency: 'BRL' }}</h1>
+      </div>
+
+      <form [formGroup]="pagamentoForm" (ngSubmit)="finalizarVenda()">
+        <div class="field mt-4">
+          <label for="valorRecebido">Valor Recebido</label>
+          <p-inputNumber 
+            id="valorRecebido" 
+            formControlName="valorRecebido" 
+            mode="currency" 
+            currency="BRL" 
+            locale="pt-BR"
+          ></p-inputNumber>
+        </div>
+
+        <p-button 
+          label="Finalizar Venda" 
+          icon="pi pi-check" 
+          type="submit" 
+          class="w-full mt-3"
+          [disabled]="pagamentoForm.invalid || itensCarrinho.length === 0"
+        ></p-button>
+      </form>
+    </p-card>
+  </div>
+</div>
