@@ -1,27 +1,86 @@
-# GestaoEstoqueApiFrontend
+# Sistema de Gestão de Estoque e Caixa - Frontend (Angular)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Este repositório contém o código-fonte do **Frontend** para o Sistema de Gestão de Estoque e Caixa. A aplicação é construída em **Angular 17** e utiliza a biblioteca de componentes **PrimeNG**.
 
-## Development server
+Este projeto consome a API RESTful construída em Spring Boot. Para o funcionamento completo, o [servidor backend](https://github.com/TheoSilvaSa/gestao-estoque-api-backend) deve estar em execução.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 🎯 Objetivo do Projeto
 
-## Code scaffolding
+Desenvolver um sistema web para controle de estoque, registro de vendas (caixa) e gestão de usuários, aplicando conceitos modernos de frontend como:
+* Arquitetura Cliente-Servidor.
+* Componentes "Standalone" do Angular.
+* **Formulários Reativos** (Reactive Forms) para validação.
+* **Rotas Protegidas (Guards)** para controle de acesso por perfil.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 🛠️ Tecnologias Utilizadas
 
-## Build
+* **Angular 17**
+* **PrimeNG 17** (para componentes de UI)
+* **PrimeIcons** (para iconografia)
+* **TypeScript**
+* **RxJS** (para programação reativa)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 🚀 Como Executar o Projeto
 
-## Running unit tests
+### Pré-requisitos
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1.  **Node.js** (versão 18.13.0 ou superior).
+2.  **Angular CLI** (versão 17 ou superior).
+3.  O **servidor Backend** (`gestao-estoque-api-backend`) deve estar em execução no `http://localhost:8080`.
 
-## Running end-to-end tests
+### Passos
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1.  **Clonar o Repositório:**
+    ```bash
+    git clone [https://github.com/gustavorezende21/gestao-estoque-api-frontend.git](https://github.com/gustavorezende21/gestao-estoque-api-frontend.git)
+    cd gestao-estoque-api-frontend
+    ```
 
-## Further help
+2.  **Instalar as Dependências:**
+    ```bash
+    npm install
+    ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+3.  **Executar o Servidor de Desenvolvimento:**
+    ```bash
+    ng serve --open
+    ```
+    O comando acima inicia o servidor (script `start`) e abre o navegador automaticamente em `http://localhost:4200/`.
+
+## ✨ Funcionalidades Implementadas
+
+O frontend implementa todas as funcionalidades solicitadas no documento do projeto:
+
+* **Autenticação (Módulo 2.1):**
+    * Tela de login com e-mail e senha.
+    * Uso de formulário reativo para validação.
+    * Gerenciamento de sessão via `localStorage` (Token, Nome, Perfil).
+
+* **Layout Principal e Guards (Módulo 2.1 / N-F):**
+    * Layout principal (`LayoutComponent`) que exibe o nome do usuário e o botão "Sair".
+    * Menu lateral (`p-sidebar`) com navegação dinâmica baseada no perfil do usuário (ADMIN ou OPERADOR).
+    * `authGuard` para proteger o layout principal (só entra logado).
+    * `roleGuard` para proteger rotas específicas de Admin e Operador.
+    * Tela de "Dashboard" como página inicial pós-login.
+
+* **Manter Usuários (Módulo 2.2 - Admin):**
+    * CRUD completo (Listar, Cadastrar, Editar, Excluir).
+    * Uso de `p-table` para listagem e `p-dialog` (modal) para formulários.
+    * Uso de `p-confirmDialog` para exclusão.
+
+* **Gestão de Estoque (Módulo 2.3 - Admin):**
+    * **CRUD de Produtos:** CRUD completo (Listar, Cadastrar, Editar, Excluir).
+    * **Movimentações:** Tela para registrar Entradas e Ajustes.
+    * **Histórico:** Tabela com o histórico de todas as movimentações (Entradas, Ajustes e Saídas de Venda).
+
+* **Caixa / Vendas (Módulo 2.4 - Operador):**
+    * Interface de Ponto de Venda (PDV).
+    * `p-autoComplete` para buscar produtos da API (com visualização de estoque).
+    * Validação de estoque no frontend antes de adicionar ao carrinho.
+    * Cálculo de subtotal e total em tempo real.
+    * Formulário de pagamento para inserir o valor recebido e finalizar a venda.
+
+* **Relatórios (Módulo 2.5 - Ambos):**
+    * Formulário com filtros por Data, Valor e ID do Usuário.
+    * Exibição de somatórios (Total de Vendas e Total de Itens Vendidos).
+    * Tabela com a lista de vendas filtradas.
