@@ -4,7 +4,7 @@ Este repositório contém o código-fonte do **Frontend** para o Sistema de Gest
 
 Este projeto consome a API RESTful construída em Spring Boot. Para o funcionamento completo, o [servidor backend](https://github.com/TheoSilvaSa/gestao-estoque-api-backend) deve estar em execução.
 
-## 🎯 Objetivo do Projeto
+## Objetivo do Projeto
 
 Desenvolver um sistema web para controle de estoque, registro de vendas (caixa) e gestão de usuários, aplicando conceitos modernos de frontend como:
 * Arquitetura Cliente-Servidor.
@@ -12,7 +12,7 @@ Desenvolver um sistema web para controle de estoque, registro de vendas (caixa) 
 * **Formulários Reativos** (Reactive Forms) para validação.
 * **Rotas Protegidas (Guards)** para controle de acesso por perfil.
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 * **Angular 17**
 * **PrimeNG 17** (para componentes de UI)
@@ -20,7 +20,7 @@ Desenvolver um sistema web para controle de estoque, registro de vendas (caixa) 
 * **TypeScript**
 * **RxJS** (para programação reativa)
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
 ### Pré-requisitos
 
@@ -47,7 +47,7 @@ Desenvolver um sistema web para controle de estoque, registro de vendas (caixa) 
     ```
     O comando acima inicia o servidor (script `start`) e abre o navegador automaticamente em `http://localhost:4200/`.
 
-## ✨ Funcionalidades Implementadas
+## Funcionalidades Implementadas
 
 O frontend implementa todas as funcionalidades solicitadas no documento do projeto:
 
